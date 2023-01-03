@@ -7,9 +7,14 @@ using prefix sums we can set a upper bound for the cows
 
 */
 
-
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
 #include <vector>
+#include <cstring>
+#include <algorithm>
+#include <map>
+#include <set>
 using namespace std;
 
 
@@ -29,6 +34,7 @@ int main(){
     sort(v.begin(),v.end());
     if(!mp.count({v[0],v[1]})){
       mp.insert({v[0],v[1]});
+      mp.insert({v[1],v[0]});
       if(v[1] - v[0] > 1){
         ans[v[0]+1]--;
         ans[v[1]]++;
@@ -37,7 +43,7 @@ int main(){
     
   }
   
-  for(int i = 0;i<n;i++){
+  for(int i = 1;i<=n;i++){
     h+=ans[i];
     cout<<h<<endl;
   }
