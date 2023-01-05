@@ -33,6 +33,8 @@ Given an integer M, for any integer set S, define the "verification value" as fo
 Take M logarithms from the set S (that is, 2∗M numbers, the numbers in the set cannot be reused, 
 if the integers in S are not enough for M pairs, take them until they cannot be taken), so that 
 "the square of the difference between each logarithm The sum of " is the largest, and this maximum 
+
+
 value is called the "verification value" of the set S.
 
 Now given an array A of length N and an integer T. We need to divide A into several sections, 
@@ -42,4 +44,8 @@ that need to be divided into.
 First we get the check value by greedy
 (sn-s1)^2 + (（sn-1) - s2)..etc after sorting
 
+
+
+
+imma skip this chapter its kinda hard
 */
