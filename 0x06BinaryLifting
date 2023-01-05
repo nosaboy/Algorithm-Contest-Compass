@@ -1,0 +1,45 @@
+/*
+Binary lifting
+
+Prefix Sum Queries
+Given array A of length N, answer q queries.
+For each query, you are given number t. Find the biggest k
+such that a1+a2+a3...+ak <= t
+
+
+This can be solved with o(qn) with regards to t(we can break) by iterating with brute force.
+This is too slow.
+We can compute each prefix sum, then run a auto it = upper_bound(t),then --it to get the answer. 
+That will be o(qlogn). 
+When t is really small, it is better to use the first method rather than the second method
+if we get lucky, but we don't know for sure.
+
+We can try binary lifting, Given Array A
+We can check if:
+a1 <= t;
+a1 + a2 + a3 <= t;
+a1 + a2 + a3 + a4 +...+an <= t
+1 2 4 8 .. 2^k
+if a
+
+continue tmrw
+
+
+
+
+Genius ACM
+Given an integer M, for any integer set S, define the "verification value" as follows:
+
+Take M logarithms from the set S (that is, 2∗M numbers, the numbers in the set cannot be reused, 
+if the integers in S are not enough for M pairs, take them until they cannot be taken), so that 
+"the square of the difference between each logarithm The sum of " is the largest, and this maximum 
+value is called the "verification value" of the set S.
+
+Now given an array A of length N and an integer T. We need to divide A into several sections, 
+so that the "check value" of each section does not exceed T. Find the minimum number of segments 
+that need to be divided into.
+
+First we get the check value by greedy
+(sn-s1)^2 + (（sn-1) - s2)..etc after sorting
+
+*/
