@@ -1,0 +1,13 @@
+Optimization with stack:
+We can get the min/max of a stack with the following:
+contain 2 stacks, one storing the numbers, and one storing the min value
+For example:
+numbers: 9 2 1 5 3 0 2
+min/max: 9 2 1 1 1 0 0
+this way, history is maintained. When we push a number into the stack, we push min/max(min/max num, number) into the min/max stack.
+Whenever we pop a number from the stack, we also pop the last number from the min/max stack. This way, we can always get the desired min/max number. 
+This way, we can get o(1) instead of the usual o(logn)
+
+Editor hdoj4699
+
+at first glance, I don't have a clear idea
