@@ -11,3 +11,35 @@ This way, we can get o(1) instead of the usual o(logn)
 Editor hdoj4699
 
 at first glance, I don't have a clear idea
+
+I like the direct simulation approach of this problem
+maintain 2 stacks, one for all numbers left of the cursor and one for all numbers right of the cursor
+operation 1: insert x into left stack, updte maximum prefix sum = max(f[cursor_pos-1], a[cursor_pos]) where a[cursor_pos] = a[cursor_pos-1]+x;
+operation 2: pop the left stack once
+operation 3: pop the left stack once, get the popped number, push it into the right stack
+operation 4: pop the right stack once, get popped number, push it into the left stack. Then, do operation 1 without insertion. 
+operation 5: print(f[k])
+
+O(1) for each operation
+Pretty simple simulation + update tbh, I just got stuck on coming up a method to insert middle elements then get the prefix sum.
+
+dp
+1-N numbersin stack problem: catalan num 0x36
+
+math order of operations with stack
+A op B
+
+3 * (1-2) = -3
+
+Post fix: A B op
+
+1 2 - 3 * = -3
+
+to figure out A B op, we do the following with a stack:
+When we reach a number, we push it into the stack
+When we reach an operation, we pop the last two numbers, then push A op B back into the stack
+After scanning, the number in the queue will be the answer
+
+We can convert A op B to A B op with the following:
+When we reach a number, output that number
+
