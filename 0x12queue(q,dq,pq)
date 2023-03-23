@@ -108,7 +108,16 @@ int main() {
 };
 
 
-noip2016/ch1202
+Earthworms noip2016/ch1202 https://www.acwing.com/problem/content/135/ https://www.luogu.com.cn/problem/P2827 
+提高+/省选- o_o
+
+The first thought is probably to simulate the process, but this obviously won't work due to the large m
+monotonic decrease.
+It is such that for any two numbers x and y such that x>=y, (u/v)x - sum >= (u/v)y - sum and (1- u/v)x - sum >= (1- u/v)y - sum
+maintain 3 queues, one for starting array, one for (u/v)x and one for (1-u/v)x
+
+
+
 
 
 
