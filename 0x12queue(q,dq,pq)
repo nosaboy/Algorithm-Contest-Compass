@@ -1,0 +1,114 @@
+Team queue poj2259 https://www.acwing.com/problem/content/134/
+This is a very simple to do problem. Maintain a main queue, then for every team maintain a queue of team members only.
+ENQUEUE - if the team of the int is not in the main queue, push it into the main queue. Push the int into the team queue.
+DEQUEUE - from the main queue, pop the first int of the team queue. If the team queue size = 0, pop the team from the main queue
+STOP - break the while loop
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+
+
+void solve(){
+    
+    int cnt = 1;
+    while(1){
+        int n;
+        cin>>n;
+        if(n == 0){
+            break;
+        }
+        cout<<"Scenario #"<<cnt<<endl;
+        cnt++;
+
+        map <int,int> mp;
+        rep(i,0,n){
+            int k;
+            cin>>k;
+            rep(j,0,k){
+                int u;
+                cin>>u;
+            
+                mp[u] = i+1;
+            }
+        }
+        vector <int> ans;
+        queue <int> a[1005];
+        queue <int>q;
+        while(1){
+            string s;
+            cin>>s;
+            if(s == "ENQUEUE"){
+                int p;
+                cin>>p;
+                if(a[mp[p]].size()==0){
+                    q.push(mp[p]);
+                    a[mp[p]].push(p);
+                }
+                else{
+                    a[mp[p]].push(p);
+                }
+            }
+            else if(s == "DEQUEUE"){
+                ans.pb(a[q.front()].front());
+                if(a[q.front()].size() == 1){
+                    a[q.front()].pop();
+                    
+                    q.pop();
+                }
+                else{
+                    a[q.front()].pop();
+                }
+                
+            }
+            else{
+                break;
+            }
+            
+        }
+        rep(j,0,ans.size()){
+                cout<<ans[j]<<"\n";
+            }
+            cout<<endl;
+
+
+    }
+
+}
+int main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+    int t;
+    t=1;
+
+    while(t--){
+        solve();
+    }
+  
+    
+		
+ 
+    
+	
+	return 0;
+};
+
+
+noip2016/ch1202
+
+
+
