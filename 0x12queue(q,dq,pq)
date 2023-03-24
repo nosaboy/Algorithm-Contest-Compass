@@ -116,6 +116,139 @@ monotonic decrease.
 It is such that for any two numbers x and y such that x>=y, (u/v)x - sum >= (u/v)y - sum and (1- u/v)x - sum >= (1- u/v)y - sum
 maintain 3 queues, one for starting array, one for (u/v)x and one for (1-u/v)x
 
+fuck acwing bruh always tle
+got ac on luogu tho https://www.luogu.com.cn/record/105666821
+
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+ 
+
+
+void solve(){
+
+}
+int main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+        int n,m,q,r;
+    int u,y;
+    cin>>n>>m>>q>>u>>y>>r;
+    vector <int> v;
+    rep(i,0,n){
+        int o;
+        cin>>o;
+        v.pb(o);
+        
+    }
+    sort(v.rbegin(),v.rend());
+    
+    queue <int> a[3];
+    
+    rep(i,0,n){
+        //cout<<v[i]<<endl;
+        a[0].push(v[i]);
+    }
+
+    
+
+    vector <int> ans;
+    int sum = 0;
+    double p=(double)u/y;
+    rep(i,0,m){
+       int ok=-2147483647;
+        int j = -1;
+        if(a[0].size() > 0 && ok < a[0].front()){
+            ok = a[0].front();
+            j = 0;
+        }
+        if(a[1].size() > 0 && ok < a[1].front()){
+            ok = a[1].front();
+            j = 1;
+        }
+        if(a[2].size() > 0 && ok < a[2].front()){
+            ok = a[2].front();
+            j = 2;
+        }
+     
+            a[j].pop();
+        
+      
+       
+        
+        ans.pb(ok+sum);
+        
+        if(i%r == r-1){
+            cout<<ok+sum<<" ";
+        }
+        
+        ll lol = floor((long double)(p) * (sum + ok));
+        ll  pp = (sum + ok)-lol;
+        //cout<<ok+sum<<" "<<lol<<" "<<pp<<" "<<sum<<endl;
+        sum+=q;
+        lol-=sum;
+        pp-=sum;
+        
+        
+        a[1].push(lol);
+        a[2].push(pp);
+        
+
+    }
+    
+    
+    cout<<"\n";
+    priority_queue<int>osa;
+    while(a[0].size()>0){
+        osa.push(a[0].front());
+        a[0].pop();
+        
+    }
+    while(a[1].size()>0){
+        osa.push(a[1].front());
+        a[1].pop();
+        
+    }
+    while(a[2].size()>0){
+        osa.push(a[2].front());
+        a[2].pop();
+        
+    }
+    int i = 0;
+    while(osa.size()>0){
+        if((i+1)%r == 0){
+            cout<<osa.top()+sum<<" ";
+        }
+        osa.pop();
+        i++;
+    }
+    
+ 
+    
+	
+	return 0;
+};
+
+
+
+
+
+
 
 
 
