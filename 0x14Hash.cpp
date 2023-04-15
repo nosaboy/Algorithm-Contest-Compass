@@ -402,3 +402,138 @@ int main() {
 /* 
 
 Problem 4: https://www.acwing.com/problem/content/142/
+For this problem, you can use hashing + binary search to search for common substrings.
+First, we must sort strings by custom comparator.
+
+
+AC Code as follows:
+*/
+
+
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef unsigned long long ULL;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+
+ULL h[1000011];
+ULL hr[1000011];
+ULL p[1000011];
+ULL hashi(string s){
+  
+  h[0]=0;
+  p[0]=1;
+  rep(i,1,s.size()+1){
+     h[i] = h[i-1]*131 + s[i-1]-'a' + 1;
+      p[i] = p[i-1]*131;
+  } 
+  rep(i,1,s.size()+1){
+    //cout<<h[i]<<endl;
+  }  
+  return h[s.size()];
+  
+  
+}
+ULL rhashi(string s){
+  
+  hr[s.size()+1]=0;
+  
+  for(int i = (int)s.size();i>=1;i--){
+     hr[i] = hr[i+1]*131 + s[i-1]-'a' + 1;
+  } 
+  rep(i,1,(int)s.size()+1){
+    //cout<<h[i]<<endl;
+  }  
+  return h[s.size()];
+  
+  
+}
+ULL get(int l, int r){
+  return h[r]-(h[l-1]*p[r-l+1]);
+
+}
+ULL getr(int l, int r){
+  return hr[l]-(hr[r+1]*p[r-l+1]);
+
+}
+int n;
+string s;
+bool cmp(int a, int b){
+  int lo = 0;
+  int hi = min(n-a,n-b);
+  
+	while (lo < hi) {
+		// find the middle of the current range (rounding up)
+		int mid = lo + (hi - lo + 1) / 2;
+    //cout<<a<<" "<<a+mid-1<<" "<<get(a,a+mid-1)<<" "<<b<<" "<<b+mid-1<<" "<<get(b,b+mid-1)<<endl;
+		if (get(a+1,a+mid) == get(b+1,b+mid)) {
+			// if mid works, then all numbers smaller than mid also work
+			lo = mid;
+		} else {
+			// if mid does not work, greater values would not work either
+			hi = mid - 1;
+		}
+	}
+  //cout<<a<<" "<<b<<" "<<lo<<" "<<min(n-a,n-b)<<endl;
+  if(lo == min(n-a,n-b)){
+    return n-a < n-b;
+  }
+  else{
+    return s[a+lo]<s[b+lo];
+  }
+}
+int main() {
+	
+	cin>>s;
+  n = s.size();
+  hashi(s);
+  
+  rhashi(s);
+  vi v;
+  rep(i,0,n){
+    v.pb(i);
+  }
+	sort(v.begin(),v.end(),cmp);
+  rep(i,0,n){
+    cout<<v[i]<<" ";
+  }
+  cout<<endl;
+  cout<<0<<" ";
+  rep(i,0,v.size()-1){
+    int a = v[i];
+    int b = v[i+1];
+    int lo = 0;
+    int hi = min(n-a,n-b);
+    
+    while (lo < hi) {
+      // find the middle of the current range (rounding up)
+      int mid = lo + (hi - lo + 1) / 2;
+      //cout<<a<<" "<<a+mid-1<<" "<<get(a,a+mid-1)<<" "<<b<<" "<<b+mid-1<<" "<<get(b,b+mid-1)<<endl;
+      if (get(a+1,a+mid) == get(b+1,b+mid)) {
+        // if mid works, then all numbers smaller than mid also work
+        lo = mid;
+      } else {
+        // if mid does not work, greater values would not work either
+        hi = mid - 1;
+      }
+    }
+    //cout<<a<<" "<<b<<" "<<lo<<" "<<min(n-a,n-b)<<endl;
+    cout<<lo<<" ";
+  }
+  cout<<endl;
+}
