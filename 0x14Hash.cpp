@@ -537,3 +537,137 @@ int main() {
   }
   cout<<endl;
 }
+
+
+
+
+/* 
+Challenge Problem for interest: https://dmoj.ca/problem/ccc20s3
+The hash function used in the pervious problems would not work due to 2^64 being easily collidable.
+We use a virtually unhackable hash by choosing random bases, and having mod 2^61-1(prime number)
+This will most likely not collide.
+
+*/
+
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef unsigned long long ULL;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+ULL M = (1LL << 61) - 1;
+ULL h[2000011];
+ULL hr[2000011];
+ULL p[2000011];
+
+
+
+__int128 mul(ll a, ll b) { return (__int128)a * b; }
+	ll mod_mul(ll a, ll b) { return mul(a, b) % M; }
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+const ll B = uniform_int_distribution<ll>(0, M - 1)(rng);
+ULL hashi(string s){
+  
+  h[0]=0;
+  p[0]=1;
+  rep(i,1,s.size()+1){
+     h[i] = (mul(h[i-1],B) + s[i-1]-'a' + 1)%M;
+      p[i] = mod_mul(p[i-1],B);
+  } 
+  rep(i,1,s.size()+1){
+    //cout<<h[i]<<endl;
+  }  
+  return h[s.size()];
+  
+  
+}
+ULL rhashi(string s){
+  
+  hr[s.size()+1]=0;
+  
+  for(int i = (int)s.size();i>=1;i--){
+     hr[i] = hr[i+1]*131 + s[i-1]-'a' + 1;
+  } 
+  rep(i,1,(int)s.size()+1){
+    //cout<<h[i]<<endl;
+  }  
+  return h[s.size()];
+  
+  
+}
+ULL get(int l, int r){
+  ULL raw =  h[r]-mod_mul(h[l-1],p[r-l+1]);
+  return (raw+M)%M;
+}
+ULL getr(int l, int r){
+  ULL raw = hr[l]-mod_mul(hr[r+1],p[r-l+1]);
+  return (raw+M)%M;
+}
+
+int kmpnxt[1000005]={0};
+void kmp_lps(string str){
+    
+    kmpnxt[0]=0;
+     for (int i = 2, j = 0; i <= str.size(); i ++ )
+    {
+        while (j && str[i-1] != str[j ]) j = kmpnxt[j];
+        if (str[i-1] == str[j ]) j ++ ;
+        kmpnxt[i] = j;
+    }
+}
+int main() {
+	
+  string s;
+  string h;
+  cin>>s>>h;
+  int tot = hashi(h);
+  int a[26]={0};
+  memset(a,0,sizeof(a));
+  rep(i,0,s.size()){
+    a[s[i]-'a']++;
+  }
+  int n[26]={0};
+  memset(n,0,sizeof(n));
+  int itr = 0;
+  int ans =0;
+  map <ULL,ULL> mp;
+  rep(i,0,h.size()){
+    
+    n[h[i]-'a']++;
+    if(i-itr+1 > s.size()){
+      n[h[itr]-'a']--;
+      itr++;
+    }
+    bool yn = true;
+    rep(j,0,26){
+      //cout<<itr<<" "<<i<<" "<<a[j]<<" "<<n[j]<<endl;
+      if(a[j] != n[j]){
+        yn = false;
+        break;
+      }
+    }
+    if(yn){
+      if(mp[get(itr+1,i+1)] == 0){
+        //cout<<itr+1<<" "<<i+1<<endl;
+        mp[get(itr+1,i+1)]=1;
+        ans++;
+      }
+    }
+    
+  }
+  cout<<ans<<endl;
+}
