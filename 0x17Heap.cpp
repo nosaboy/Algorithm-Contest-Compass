@@ -226,7 +226,30 @@ int main() {
 
 
 
+/*
+Now we can consider the Huffman tree problem. But with k children
+The greedy sol for k=2 will not work because given a tree, after we choose k minimum
+numbers many times there might be 2 to k-1 nodes left at the last merge.
+This is not optimal because we can choose any node from a lower merge and decrease the distance to the root
+
+Therefore, a good greedy approach is to add '0s' to the bottom of the root as late as possible.
+This way, we can get rid of the 2 to k-1 roots as early as possible(so we cannot do the above trick)
+More specifically, we can say if n - m(k-1) = 1 for some 1, this will have the best answer because everything is filled up(to k nodes per parent)
+We ge n-1 = m(k-1), so (n-1)%(k-1) = 0 for this to work. 
+If (n-1)%(k-1) = x, we can choose x smallest for the first merge(deepest nodes) & have k nodes every other merge(and 'fill' the rest with '0s' for optimal solution).
+
+
+
+
+
+
+
+
+*/
+
+
 /* Problem 4: https://www.acwing.com/problem/content/151/
 
 
 
+*/
