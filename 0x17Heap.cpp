@@ -236,7 +236,7 @@ Therefore, a good greedy approach is to add '0s' to the bottom of the root as la
 This way, we can get rid of the 2 to k-1 roots as early as possible(so we cannot do the above trick)
 More specifically, we can say if n - m(k-1) = 1 for some 1, this will have the best answer because everything is filled up(to k nodes per parent)
 We ge n-1 = m(k-1), so (n-1)%(k-1) = 0 for this to work. 
-If (n-1)%(k-1) = x, we can choose x smallest for the first merge(deepest nodes) & have k nodes every other merge(and 'fill' the rest with '0s' for optimal solution).
+We want to add 0s to the # of nodes and increase n(size) until (n-1)%(k-1) = 0 & have k nodes every other merge(and 'fill' the rest with '0s' for optimal solution).
 
 
 
@@ -249,6 +249,96 @@ If (n-1)%(k-1) = x, we can choose x smallest for the first merge(deepest nodes) 
 
 
 /* Problem 4: https://www.acwing.com/problem/content/151/
+
+This is just huffman tree with k nodes. 
+Things to keep note:
+we can just make it so that we choose k-1-(k-1) if (n-1)%(k-1) != 0 and choose k otherwise. 
+Anything else will segfault or runtime
+
+We store the length that the node has travelled for every node(it starts at 0), and sort by min(value, length) 
+to get optimal answer for min value + min length overall(we always choose least lengths for every merge)
+
+
+
+*/
+
+
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef unsigned long long ULL;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+
+int main() {
+  ll n,k;
+  cin>>n>>k;
+  priority_queue<pair<ll,ll>, vector<pair<ll,ll>>, greater<pair<ll,ll>> > pq;
+
+  rep(i,0,n){
+    ll u;
+    cin>>u;
+    pq.push({u,0});
+    
+  }
+  
+  bool yn = 0;
+
+  while((n-1)%(k-1)){
+    pq.push({0,0});
+    n++;
+  }
+  ll ans = 0;
+  while(pq.size() > 1){
+    ll x;
+    
+      
+      x = k;
+    
+    
+    ll ok = 0;
+      ll mx = 0;
+      //cout<<1<<endl;
+      while(x--){
+      
+       
+       // cout<<ans<<" "<<pq.top().first<<" "<<pq.top().second<<endl;
+        ok += pq.top().first;
+        mx = max(mx, pq.top().second);
+        pq.pop();
+      }
+      ans += ok;
+      pq.push({ok,mx+1});
+      
+     
+  }
+  
+  cout<<ans<<"\n"<<pq.top().second<<endl;
+
+}
+
+
+
+/*
+Problem 5:
+
+Observation 1: We must choose adjcent pairs only, because if pairs are not adjacent, it takes up less space and value if we choose adjacent pair inside.
+Now it turns into this: we can just store all min lengths and find min sum of lengths such that no two pairs uses the same node.
+Observation 2: Trying k=1, we get the min len
 
 
 
