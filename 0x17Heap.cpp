@@ -338,8 +338,11 @@ Problem 5:
 
 Observation 1: We must choose adjcent pairs only, because if pairs are not adjacent, it takes up less space and value if we choose adjacent pair inside.
 Now it turns into this: we can just store all min lengths and find min sum of lengths such that no two pairs uses the same node.
-Observation 2: Trying k=1, we get the min len
+Observation 2: Trying k=1, we get the ans = min number, 
+k=2 yields ans = min number+min excluding neighbours, min(leftneighbour + minnotneighbour, rightneighbour + minnotneighbour)
 
-
+We can further note that for a given minimum, we either choose that minimum and the next POSSIBLE minimum, or choose its left and right. 
+This is because if the minimum is not in optimal ans, if we choose its left and not its right, we can choose min node to make it even more optimal.
+Therefore, we must choose both left and right if minimum is not chosen. 
 
 */
