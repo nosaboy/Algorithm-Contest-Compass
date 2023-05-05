@@ -110,7 +110,7 @@ int main() {
 
 
 /* 
-Problem 3:
+Problem 3:https://www.acwing.com/problem/content/154/
 
 This is literally the largest histogram problem from stack but in 2d instead of 1d so I just made adjustments to the og code.
 
@@ -201,3 +201,83 @@ int main() {
   }
   cout<<ans*3<<endl;
 }
+
+
+
+/* 
+Problem 5: https://www.acwing.com/problem/content/156/
+
+Just use a multiset to keep track of min max
+
+*/
+
+
+#include <bits/stdc++.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+template<typename T>
+using orderedMultiset = tree<T ,null_type,std::less_equal<T>, rb_tree_tag,tree_order_statistics_node_update>;
+typedef long long ll;
+typedef unsigned long long ULL;
+typedef pair<int, int> pi;
+typedef vector<int> vi;
+#define f first
+#define s second
+#define pb push_back
+#define rep(i, a, b) for(int i = a; i < (b); ++i) 
+#define all(x) (x).begin(), (x).end()
+ll MOD = 1000000007;
+
+int main() {
+  int n,k;
+  cin>>n>>k;
+  vi v;
+  rep(i,0,n){
+    int u;
+    cin>>u;
+    v.pb(u);
+  }
+  multiset <int> ms;
+
+  rep(i,0,k){
+    ms.insert(v[i]);
+  }
+  auto osa = ms.begin();
+  auto nosa = ms.end();
+  --nosa;
+  vi l;
+  vi r;
+  l.pb(*osa);
+  r.pb(*nosa);
+  rep(i,1,n-k+1){
+    ms.erase(ms.find(v[i-1]));
+    ms.insert(v[i+k-1]);
+    auto it = ms.begin();
+    auto itr = ms.end();
+    --itr;
+    l.pb(*it);
+    r.pb(*itr);
+  } 
+  rep(i,0,l.size()){
+    cout<<l[i]<<" ";
+  }
+  cout<<endl;
+  rep(i,0,l.size()){
+    cout<<r[i]<<" ";
+  }
+  cout<<endl;
+}
+
+
+/*
+Problem 7: https://www.acwing.com/problem/content/158/
+Precompute hash of matrix
+
+*/
+
+
